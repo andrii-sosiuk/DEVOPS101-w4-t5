@@ -1,5 +1,6 @@
 variables:
   IMAGE_NAME: droneus/nginx-htttp-server
+  VERSION_FILE: version.txt
 
 stages:
   - build
@@ -13,6 +14,6 @@ build_image:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
   script:
-    - VERSION=$(cat "$file_path")
+    - VERSION=$(cat "$VERSION_FILE")
     - docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:version .
     - docker push $IMAGE_TAG
