@@ -1,5 +1,5 @@
 variables:
-  IMAGE_NAME: droneus/nginx-htttp-server
+  IMAGE_NAME: droneus/nginx-http-server
   VERSION_FILE: version.txt
 
 stages:
