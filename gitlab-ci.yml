@@ -1,0 +1,18 @@
+variables:
+  IMAGE_NAME: nginx-htttp-server
+
+stages:
+  - build
+
+build_image:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+  script:
+    - VERSION=$(cat "$file_path")
+    - docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:version .
+    - docker push $IMAGE_TAG
