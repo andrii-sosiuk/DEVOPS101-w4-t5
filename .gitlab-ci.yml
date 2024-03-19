@@ -15,5 +15,5 @@ build_image:
     DOCKER_DRIVER: overlay2
   script:
     - VERSION=$(cat "$VERSION_FILE")
-    - docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:version .
-    - docker push $IMAGE_TAG
+    - docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:$VERSION .
+    - docker push $IMAGE_NAME:latest $IMAGE_NAME:$VERSION
