@@ -6,6 +6,6 @@
 
 Код:
 
-https://raw.githubusercontent.com/den-vasyliev/devops-types/master/html/index.html
-https://raw.githubusercontent.com/den-vasyliev/devops-types/master/html/vivus.min.js
-https://raw.githubusercontent.com/den-vasyliev/devops-types/master/html/frame_tmplate.svg
+https://raw.githubusercontent.com/den-vasyliev/devops-types/master/html/index.html  
+https://raw.githubusercontent.com/den-vasyliev/devops-types/master/html/vivus.min.js  
+https://raw.githubusercontent.com/den-vasyliev/devops-types/master/html/frame_tmplate.svg  
