@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: devops-types-container
-        image: droneus/nginx-http-server
+        image: droneus/nginx-http-server:latest
         ports:
         - containerPort: 80
