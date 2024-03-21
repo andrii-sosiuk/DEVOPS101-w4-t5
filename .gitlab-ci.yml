@@ -14,9 +14,7 @@ build_image:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
   script:
-    - ls -la
-    - ls -la scripts/*
-    - ./scripts/update_version.sh increment version.txt
+    - sh scripts/update_version.sh increment version.txt
     - VERSION=$(cat "$VERSION_FILE")
     - docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:$VERSION .
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
