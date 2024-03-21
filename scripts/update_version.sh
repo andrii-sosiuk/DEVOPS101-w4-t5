@@ -40,24 +40,24 @@ else
     shift
 fi
 
-if [[ $command != "get" && $command != "set" && $command != "increment" ]]; then
+if [ $command != "get" ] && [ "$command" != "set" ] && [ "$command" != "increment" ]; then
     usage
 fi
 
 # Parse argumants for get and increment
-if [[ $command == "get" || $command == "increment" ]]; then
-    while [[ $# -gt 1 ]]; do
+if [ "$command" == "get" ] || [ "$command" == "increment" ]; then
+    while [ $# -gt 1 ]; do
         param=$1
-        if [[ $param != "-m" && $param != "-n" && $param != "-p" ]]; then
+        if [ "$param" != "-m" ] && [ "$param" != "-n" ] && [ "$param" != "-p" ]; then
             usage
         fi
-        if [ $param == "-m" ]; then
+        if [ "$param" == "-m" ]; then
             major="true"
             shift
-        elif [ $param == "-n" ]; then
+        elif [ "$param" == "-n" ]; then
             minor="true"
             shift
-        elif [ $param == "-p" ]; then
+        elif [ "$param" == "-p" ]; then
             patch="true"
             shift
         fi
@@ -65,7 +65,7 @@ if [[ $command == "get" || $command == "increment" ]]; then
 fi
 
 # Parse argumants for set
-if [[ $command == "set" ]]; then
+if [ "$command" = "set" ]; then
     if [ $# -lt 2 ]; then
         usage
     fi
@@ -73,9 +73,9 @@ if [[ $command == "set" ]]; then
         new_version=$1
         shift
     else
-        while [[ $# -gt 1 ]]; do
+        while [ $# -gt 1 ]; do
             param=$1
-            if [[ $param != "-m" && $param != "-n" && $param != "-p" ]]; then
+            if [ $param != "-m" ] && [ $param != "-n" ] && [ $param != "-p" ]; then
                 usage
             fi
             if [ $param == "-m" ]; then
@@ -111,7 +111,7 @@ current_minor=${current_splitted[1]}
 current_patch=${current_splitted[2]}
 
 if [ $command == "get" ]; then
-    if [[ "$major" == "" && "$minor" == "" && "$patch" == "" ]]; then
+    if [ "$major" = "" ] && [ "$minor" = "" ] && [ "$patch" = "" ]; then
         echo $current_version
         exit 0
     else
@@ -133,7 +133,7 @@ if [ $command == "increment" ]; then
     new_major=$current_major 
     new_minor=$current_minor 
     new_patch=$current_patch 
-    if [[ "$major" == "" && "$minor" == "" && "$patch" == "" ]]; then
+    if [ "$major" == "" ] && [ "$minor" == "" ] && [ "$patch" == "" ]; then
         new_patch=$((new_patch+1)) 
     else
         if [ "$major" == "true" ]; then
