@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Script updates version file.
 # Version format: Magor.Minor.Patch
 # where Magor, Minor and Patch are integer numbers.
@@ -45,19 +43,19 @@ if [ $command != "get" ] && [ "$command" != "set" ] && [ "$command" != "incremen
 fi
 
 # Parse argumants for get and increment
-if [ "$command" == "get" ] || [ "$command" == "increment" ]; then
+if [ "$command" = "get" ] || [ "$command" = "increment" ]; then
     while [ $# -gt 1 ]; do
         param=$1
         if [ "$param" != "-m" ] && [ "$param" != "-n" ] && [ "$param" != "-p" ]; then
             usage
         fi
-        if [ "$param" == "-m" ]; then
+        if [ "$param" = "-m" ]; then
             major="true"
             shift
-        elif [ "$param" == "-n" ]; then
+        elif [ "$param" = "-n" ]; then
             minor="true"
             shift
-        elif [ "$param" == "-p" ]; then
+        elif [ "$param" = "-p" ]; then
             patch="true"
             shift
         fi
@@ -78,13 +76,13 @@ if [ "$command" = "set" ]; then
             if [ $param != "-m" ] && [ $param != "-n" ] && [ $param != "-p" ]; then
                 usage
             fi
-            if [ $param == "-m" ]; then
+            if [ $param = "-m" ]; then
                 shift
                 major=$1
-            elif [ $param == "-n" ]; then
+            elif [ $param = "-n" ]; then
                 shift
                 minor=$1
-            elif [ $param == "-p" ]; then
+            elif [ $param = "-p" ]; then
                 shift
                 patch=$1
             fi
@@ -96,7 +94,7 @@ fi
 #  Get file path
 if [ $# -eq 1 ]; then
     version_file=$1
-    if [[ ! -a $version_file ]]; then
+    if [ ! -f $version_file ]; then
         echo "Could not find file: $version_file"
         exit 1
     fi
@@ -105,44 +103,41 @@ else
 fi
 
 current_version=$(cat $version_file)
-current_splitted=($(cat $version_file | awk 'BEGIN {FS = "\\."} {print $1, $2, $3}'))
-current_major=${current_splitted[0]}
-current_minor=${current_splitted[1]}
-current_patch=${current_splitted[2]}
+IFS='.' read current_major current_minor current_patch < "$version_file"
 
-if [ $command == "get" ]; then
+if [ $command = "get" ]; then
     if [ "$major" = "" ] && [ "$minor" = "" ] && [ "$patch" = "" ]; then
         echo $current_version
         exit 0
     else
         result=""
-        if [ "$major" == "true" ]; then
+        if [ "$major" = "true" ]; then
             result="$result $current_major"
         fi
-        if [ "$minor" == "true" ]; then
+        if [ "$minor" = "true" ]; then
             result="$result $current_minor"
         fi
-        if [ "$patch" == "true" ]; then
+        if [ "$patch" = "true" ]; then
             result="$result $current_patch"
         fi
         echo $result
     fi
 fi
 
-if [ $command == "increment" ]; then
+if [ $command = "increment" ]; then
     new_major=$current_major 
     new_minor=$current_minor 
     new_patch=$current_patch 
-    if [ "$major" == "" ] && [ "$minor" == "" ] && [ "$patch" == "" ]; then
+    if [ "$major" = "" ] && [ "$minor" = "" ] && [ "$patch" = "" ]; then
         new_patch=$((new_patch+1)) 
     else
-        if [ "$major" == "true" ]; then
+        if [ "$major" = "true" ]; then
             new_major=$((new_major+1))
         fi
-        if [ "$minor" == "true" ]; then
+        if [ "$minor" = "true" ]; then
             new_minor=$((new_minor+1))
         fi
-        if [ "$patch" == "true" ]; then
+        if [ "$patch" = "true" ]; then
             new_patch=$((new_patch+1))
         fi
     fi
@@ -151,18 +146,24 @@ if [ $command == "increment" ]; then
     exit 0
 fi
 
-if [ $command == "set" ]; then
+if [ $command = "set" ]; then
     new_major=$current_major 
     new_minor=$current_minor 
     new_patch=$current_patch 
-    if [ "$major" != "" ]; then
-        new_major=$major
-    fi
-    if [ "$minor" != "" ]; then
-        new_minor=$minor
-    fi
-    if [ "$patch" != "" ]; then
-        new_patch=$patch
+    if [ "$major" = "" ] && [ "$minor" = "" ] && [ "$patch" = "" ]; then
+        echo "set version to: $new_version"
+        echo "$new_version" > $version_file
+        exit 0
+    else
+        if [ "$major" != "" ]; then
+            new_major=$major
+        fi
+        if [ "$minor" != "" ]; then
+            new_minor=$minor
+        fi
+        if [ "$patch" != "" ]; then
+            new_patch=$patch
+        fi
     fi
     echo "set version to: $new_major.$new_minor.$new_patch"
     echo "$new_major.$new_minor.$new_patch" > $version_file
