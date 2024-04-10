@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: vivus-with-asciis-container
-#        image: droneus/nginx-http-server:latest
-        image: droneus/vivo-ascii
+       image: droneus/nginx-http-server:latest
+        # image: droneus/vivo-ascii
         ports:
         - containerPort: 8000
