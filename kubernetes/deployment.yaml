@@ -1,19 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: devops-types
+  name: vivus-with-ascii
+  namespace: vivus-with-ascii
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: devops-types-app
+      app: vivus-with-ascii-app
   template:
     metadata:
       labels:
-        app: devops-types-app
+        app:  vivus-with-ascii-app
     spec:
       containers:
-      - name: devops-types-container
+      - name: vivus-with-asciis-container
         image: droneus/nginx-http-server:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8000
