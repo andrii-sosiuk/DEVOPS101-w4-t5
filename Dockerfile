@@ -1,4 +1,4 @@
-# FROM ubuntu as builder
+#  FROM ubuntu as builder
 
 # WORKDIR /src
 # RUN apt-get update&&apt-get install git nasm build-essential curl -y
@@ -18,9 +18,18 @@
 # WORKDIR /html
 # ADD ./html /html
 
-# ENTRYPOINT ["python", "-m", "http.server", "8080"]
-# # ENTRYPOINT ["python", "-V"]
-# EXPOSE 8080
 
-FROM nginx:alpine
-COPY ./html /usr/share/nginx/html
+FROM python:alpine
+
+WORKDIR /app
+
+RUN apk update && apk add --no-cache cairo
+RUN pip install cairosvg pillow
+COPY . /app/
+
+# ENTRYPOINT ["python", "python/simple_http_server.html", "html", "8000"]
+CMD ["python", "python/simple_http_server.py", "html", "8000"]
+EXPOSE 8000
+
+# FROM nginx:alpine
+# COPY ./html /usr/share/nginx/html
